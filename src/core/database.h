@@ -6,6 +6,7 @@
 #include <vector>
 
 class Table;
+class Query;
 
 class Database {
 private:
@@ -24,4 +25,6 @@ public:
   bool drop_table(const std::string& table_name);
   Table* get_table(const std::string& table_name);
   const std::unordered_map<std::string, std::unique_ptr<Table>>& get_tables() const { return tables; }
+
+  std::unique_ptr<Query> execute_query(const std::string& sql);
 };
