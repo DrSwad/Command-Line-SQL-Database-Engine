@@ -12,9 +12,11 @@ int main() {
 
   std::string input;
 
-  while (true) {
+  while (std::getline(std::cin, input, ';')) {
+    input.erase(0, input.find_first_not_of("\t\n\v\f\r "));
+    input.erase(input.find_last_not_of("\t\n\v\f\r ") + 1);
+
     std::cout << "\ndb> ";
-    std::getline(std::cin, input);
 
     if (input == "quit" || input == "exit" || input == "") {
       break;
