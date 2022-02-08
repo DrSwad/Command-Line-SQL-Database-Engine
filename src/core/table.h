@@ -19,6 +19,9 @@ public:
   const std::vector<std::string>& get_columns() const { return columns; }
 
   bool insert_row(const std::vector<std::string>& values);
-  std::vector<Row*> select_rows();
+  std::vector<Row*> select_rows(const std::string& condition = "");
   size_t get_row_count() const { return rows.size(); }
+
+private:
+  bool evaluate_condition(Row* row, const std::string& condition);
 };

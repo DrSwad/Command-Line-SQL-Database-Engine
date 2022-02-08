@@ -29,7 +29,10 @@ make
 echo \
 "CREATE TABLE students (id, name, age);
 INSERT INTO students (id, name, age) VALUES (1, Alice, 20);
-SELECT * FROM students;" \
+INSERT INTO students (id, name, age) VALUES (2, Bob, 21);
+INSERT INTO students (id, name, age) VALUES (3, Carol, 22);
+SELECT * FROM students;
+SELECT * FROM students WHERE id >= 2;" \
 | ./db_engine
 ```
 
@@ -42,8 +45,19 @@ db> Query executed successfully
 
 db> Query executed successfully
 
-db> Query executed successfully. Found 1 rows.
+db> Query executed successfully
+
+db> Query executed successfully
+
+db> Query executed successfully. Found 3 rows.
 1 | Alice | 20
+2 | Bob | 21
+3 | Carol | 22
+Query executed successfully
+
+db> Query executed successfully. Found 2 rows.
+2 | Bob | 21
+3 | Carol | 22
 Query executed successfully
 
 db> Goodbye!

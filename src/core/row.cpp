@@ -8,6 +8,19 @@ Row::Row(const std::vector<std::string>& column_names, const std::vector<std::st
   }
 
   values = row_values;
+
+  for (size_t i = 0; i < column_names.size(); ++i) {
+    column_map[column_names[i]] = i;
+  }
+}
+
+std::string Row::get_value(const std::string& column_name) const {
+  auto it = column_map.find(column_name);
+
+  if (it == column_map.end()) {
+    throw std::out_of_range("Column not found: " + column_name);
+  }
+  return values[it->second];
 }
 
 std::string Row::to_string() const {

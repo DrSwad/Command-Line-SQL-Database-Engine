@@ -28,7 +28,7 @@ int main() {
       std::cout << "  DROP TABLE table_name" << std::endl;
       std::cout << "  TABLES" << std::endl;
       std::cout << "  INSERT INTO table_name (col1, col2, ...) VALUES (val1, val2, ...)" << std::endl;
-      std::cout << "  SELECT * FROM table_name" << std::endl;
+      std::cout << "  SELECT * FROM table_name [WHERE condition]" << std::endl;
       std::cout << "  quit" << std::endl;
       continue;
     }

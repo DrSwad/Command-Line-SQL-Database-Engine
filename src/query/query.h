@@ -22,6 +22,7 @@ private:
   std::string table_name;
   std::vector<std::string> columns;
   std::vector<std::string> values;
+  std::string condition;
 
 public:
   Query(const std::string& sql_query, Database* db);

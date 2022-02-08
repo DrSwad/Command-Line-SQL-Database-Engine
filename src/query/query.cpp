@@ -143,6 +143,17 @@ bool Query::parse_select() {
   if (i >= tokens.size()) return false;
   table_name = tokens[i];
 
+  i++;
+
+  if (i < tokens.size() && to_lower(tokens[i]) == "where") {
+    i++;
+
+    while (i < tokens.size()) {
+      condition += tokens[i] + " ";
+      i++;
+    }
+  }
+
   return true;
 }
 
@@ -199,7 +210,7 @@ bool Query::execute_select() {
 
   if (!table) return false;
 
-  std::vector<Row*> rows = table->select_rows();
+  std::vector<Row*> rows = table->select_rows(condition);
 
   std::cout << "Query executed successfully. Found " << rows.size() << " rows." << std::endl;
 
