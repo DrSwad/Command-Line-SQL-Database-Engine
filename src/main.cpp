@@ -1,4 +1,5 @@
 #include "core/database.h"
+#include "core/table.h"
 #include "query/query.h"
 #include <iostream>
 #include <string>
@@ -15,7 +16,7 @@ int main() {
     std::cout << "\ndb> ";
     std::getline(std::cin, input);
 
-    if (input == "quit" || input == "exit") {
+    if (input == "quit" || input == "exit" || input == "") {
       break;
     }
 
@@ -24,6 +25,8 @@ int main() {
       std::cout << "  CREATE TABLE table_name (col1, col2, ...)" << std::endl;
       std::cout << "  DROP TABLE table_name" << std::endl;
       std::cout << "  TABLES" << std::endl;
+      std::cout << "  INSERT INTO table_name (col1, col2, ...) VALUES (val1, val2, ...)" << std::endl;
+      std::cout << "  SELECT * FROM table_name" << std::endl;
       std::cout << "  quit" << std::endl;
       continue;
     }
@@ -38,7 +41,8 @@ int main() {
         std::cout << "Tables in database:" << std::endl;
 
         for (const auto& table_pair : tables) {
-          std::cout << "  " << table_pair.first << std::endl;
+          std::cout << "  " << table_pair.first << " ("
+                    << table_pair.second->get_row_count() << " rows)" << std::endl;
         }
       }
       continue;

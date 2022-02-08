@@ -2,10 +2,13 @@
 
 #include <string>
 #include <vector>
+#include <memory>
 
 class Database;
 
 enum class QueryType {
+  SELECT,
+  INSERT,
   CREATE_TABLE,
   DROP_TABLE,
   UNKNOWN
@@ -18,6 +21,7 @@ private:
   QueryType type;
   std::string table_name;
   std::vector<std::string> columns;
+  std::vector<std::string> values;
 
 public:
   Query(const std::string& sql_query, Database* db);
@@ -32,7 +36,11 @@ private:
 
   bool parse_create_table();
   bool parse_drop_table();
+  bool parse_select();
+  bool parse_insert();
 
   bool execute_create_table();
   bool execute_drop_table();
+  bool execute_select();
+  bool execute_insert();
 };
