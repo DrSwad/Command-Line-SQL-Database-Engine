@@ -276,7 +276,7 @@ bool Query::execute_update() {
 
   if (!table) return false;
 
-  return table->update_row(columns, values, condition);
+  return table->update_rows(columns, values, condition);
 }
 
 std::string Query::get_result() const {

@@ -61,7 +61,7 @@ std::vector<Row*> Table::select_rows(const std::string& condition) {
   return result;
 }
 
-bool Table::update_row(const std::vector<std::string>& columns, const std::vector<std::string>& values, const std::string& condition) {
+bool Table::update_rows(const std::vector<std::string>& columns, const std::vector<std::string>& values, const std::string& condition) {
   for (auto& row : rows) {
     if (evaluate_condition(row.get(), condition)) {
       for (size_t i = 0; i < columns.size(); ++i) {

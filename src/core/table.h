@@ -21,7 +21,7 @@ public:
 
   bool insert_row(const std::vector<std::string>& values);
   std::vector<Row*> select_rows(const std::string& condition = "");
-  bool update_row(const std::vector<std::string>& columns, const std::vector<std::string>& values, const std::string& condition);
+  bool update_rows(const std::vector<std::string>& columns, const std::vector<std::string>& values, const std::string& condition);
 
 private:
   bool evaluate_condition(Row* row, const std::string& condition);
