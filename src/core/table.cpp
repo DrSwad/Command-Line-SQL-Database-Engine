@@ -6,29 +6,6 @@ Table::Table(const std::string& table_name, const std::vector<std::string>& colu
 
 Table::~Table() = default;
 
-bool Table::insert_row(const std::vector<std::string>& values) {
-  if (values.size() != columns.size()) {
-    return false;
-  }
-
-  auto row = std::make_unique<Row>(columns, values);
-  rows.push_back(std::move(row));
-
-  return true;
-}
-
-std::vector<Row*> Table::select_rows(const std::string& condition) {
-  std::vector<Row*> result;
-
-  for (auto& row : rows) {
-    if (evaluate_condition(row.get(), condition)) {
-      result.push_back(row.get());
-    }
-  }
-
-  return result;
-}
-
 bool Table::evaluate_condition(Row* row, const std::string& condition) {
   std::istringstream iss(condition);
   std::string column, op, value;
@@ -59,4 +36,39 @@ bool Table::evaluate_condition(Row* row, const std::string& condition) {
   }
 
   return false;
+}
+
+bool Table::insert_row(const std::vector<std::string>& values) {
+  if (values.size() != columns.size()) {
+    return false;
+  }
+
+  auto row = std::make_unique<Row>(columns, values);
+  rows.push_back(std::move(row));
+
+  return true;
+}
+
+std::vector<Row*> Table::select_rows(const std::string& condition) {
+  std::vector<Row*> result;
+
+  for (auto& row : rows) {
+    if (evaluate_condition(row.get(), condition)) {
+      result.push_back(row.get());
+    }
+  }
+
+  return result;
+}
+
+bool Table::update_row(const std::vector<std::string>& columns, const std::vector<std::string>& values, const std::string& condition) {
+  for (auto& row : rows) {
+    if (evaluate_condition(row.get(), condition)) {
+      for (size_t i = 0; i < columns.size(); ++i) {
+        row->set_value(columns[i], values[i]);
+      }
+    }
+  }
+
+  return true;
 }

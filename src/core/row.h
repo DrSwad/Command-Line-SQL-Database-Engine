@@ -13,6 +13,7 @@ public:
   Row(const std::vector<std::string>& column_names, const std::vector<std::string>& row_values);
 
   std::string get_value(const std::string& column_name) const;
+  void set_value(const std::string& column_name, const std::string& value);
 
   std::string to_string() const;
 };

@@ -68,6 +68,10 @@ bool Query::parse() {
     type = QueryType::INSERT;
     return parse_insert();
   }
+  else if (first_token == "update") {
+    type = QueryType::UPDATE;
+    return parse_update();
+  }
 
   return false;
 }
@@ -85,6 +89,9 @@ bool Query::execute() {
     }
     case QueryType::INSERT: {
       return execute_insert();
+    }
+    case QueryType::UPDATE: {
+      return execute_update();
     }
     default: {
       return false;
@@ -197,6 +204,41 @@ bool Query::parse_insert() {
   return true;
 }
 
+bool Query::parse_update() {
+  std::vector<std::string> tokens = tokenize(sql);
+  size_t i = 1;
+
+  if (i >= tokens.size()) return false;
+  table_name = tokens[i];
+  i++;
+
+  if (i >= tokens.size() || to_lower(tokens[i]) != "set") return false;
+  i++;
+
+  while (i < tokens.size() && to_lower(tokens[i]) != "where") {
+    if (tokens[i] != "," && tokens[i] != "=") {
+      if (columns.size() <= values.size()) {
+        columns.push_back(tokens[i]);
+      }
+      else {
+        values.push_back(tokens[i]);
+      }
+    }
+    i++;
+  }
+
+  if (i < tokens.size() && to_lower(tokens[i]) == "where") {
+    i++;
+
+    while (i < tokens.size()) {
+      condition += tokens[i] + " ";
+      i++;
+    }
+  }
+
+  return true;
+}
+
 bool Query::execute_create_table() {
   return database->create_table(table_name, columns);
 }
@@ -227,6 +269,14 @@ bool Query::execute_insert() {
   if (!table) return false;
 
   return table->insert_row(values);
+}
+
+bool Query::execute_update() {
+  Table* table = database->get_table(table_name);
+
+  if (!table) return false;
+
+  return table->update_row(columns, values, condition);
 }
 
 std::string Query::get_result() const {

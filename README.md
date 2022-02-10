@@ -32,7 +32,9 @@ INSERT INTO students (id, name, age) VALUES (1, Alice, 20);
 INSERT INTO students (id, name, age) VALUES (2, Bob, 21);
 INSERT INTO students (id, name, age) VALUES (3, Carol, 22);
 SELECT * FROM students;
-SELECT * FROM students WHERE id >= 2;" \
+SELECT * FROM students WHERE id >= 2;
+UPDATE students SET name = NotAlice, age = 30 WHERE id = 1;
+SELECT * FROM students WHERE id = 1;" \
 | ./db_engine
 ```
 
@@ -58,6 +60,12 @@ Query executed successfully
 db> Query executed successfully. Found 2 rows.
 2 | Bob | 21
 3 | Carol | 22
+Query executed successfully
+
+db> Query executed successfully
+
+db> Query executed successfully. Found 1 rows.
+1 | NotAlice | 30
 Query executed successfully
 
 db> Goodbye!

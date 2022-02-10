@@ -23,6 +23,15 @@ std::string Row::get_value(const std::string& column_name) const {
   return values[it->second];
 }
 
+void Row::set_value(const std::string& column_name, const std::string& value) {
+  auto it = column_map.find(column_name);
+
+  if (it == column_map.end()) {
+    throw std::out_of_range("Column not found: " + column_name);
+  }
+  values[it->second] = value;
+}
+
 std::string Row::to_string() const {
   std::ostringstream oss;
 

@@ -7,10 +7,11 @@
 class Database;
 
 enum class QueryType {
-  SELECT,
-  INSERT,
   CREATE_TABLE,
   DROP_TABLE,
+  SELECT,
+  INSERT,
+  UPDATE,
   UNKNOWN
 };
 
@@ -39,9 +40,11 @@ private:
   bool parse_drop_table();
   bool parse_select();
   bool parse_insert();
+  bool parse_update();
 
   bool execute_create_table();
   bool execute_drop_table();
   bool execute_select();
   bool execute_insert();
+  bool execute_update();
 };
