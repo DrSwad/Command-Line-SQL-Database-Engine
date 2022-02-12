@@ -12,6 +12,7 @@ enum class QueryType {
   SELECT,
   INSERT,
   UPDATE,
+  DELETE,
   UNKNOWN
 };
 
@@ -41,10 +42,12 @@ private:
   bool parse_select();
   bool parse_insert();
   bool parse_update();
+  bool parse_delete();
 
   bool execute_create_table();
   bool execute_drop_table();
   bool execute_select();
   bool execute_insert();
   bool execute_update();
+  bool execute_delete();
 };

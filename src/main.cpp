@@ -30,6 +30,7 @@ int main() {
       std::cout << "  SELECT * FROM table_name [WHERE condition]" << std::endl;
       std::cout << "  INSERT INTO table_name (col1, col2, ...) VALUES (val1, val2, ...)" << std::endl;
       std::cout << "  UPDATE table_name SET col1 = val1, col2 = val2, ... [WHERE condition]" << std::endl;
+      std::cout << "  DELETE FROM table_name [WHERE condition]" << std::endl;
       std::cout << "  quit" << std::endl;
       continue;
     }

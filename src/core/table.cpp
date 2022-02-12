@@ -72,3 +72,16 @@ bool Table::update_rows(const std::vector<std::string>& columns, const std::vect
 
   return true;
 }
+
+bool Table::delete_rows(const std::string& condition) {
+  for (auto it = rows.begin(); it != rows.end();) {
+    if (evaluate_condition(it->get(), condition)) {
+      it = rows.erase(it);
+    }
+    else {
+      ++it;
+    }
+  }
+
+  return true;
+}

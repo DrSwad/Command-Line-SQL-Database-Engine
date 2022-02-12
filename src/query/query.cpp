@@ -72,6 +72,10 @@ bool Query::parse() {
     type = QueryType::UPDATE;
     return parse_update();
   }
+  else if (first_token == "delete") {
+    type = QueryType::DELETE;
+    return parse_delete();
+  }
 
   return false;
 }
@@ -92,6 +96,9 @@ bool Query::execute() {
     }
     case QueryType::UPDATE: {
       return execute_update();
+    }
+    case QueryType::DELETE: {
+      return execute_delete();
     }
     default: {
       return false;
@@ -239,6 +246,29 @@ bool Query::parse_update() {
   return true;
 }
 
+bool Query::parse_delete() {
+  std::vector<std::string> tokens = tokenize(sql);
+  size_t i = 1;
+
+  if (i >= tokens.size() || to_lower(tokens[i]) != "from") return false;
+  i++;
+
+  if (i >= tokens.size()) return false;
+  table_name = tokens[i];
+  i++;
+
+  if (i < tokens.size() && to_lower(tokens[i]) == "where") {
+    i++;
+
+    while (i < tokens.size()) {
+      condition += tokens[i] + " ";
+      i++;
+    }
+  }
+
+  return true;
+}
+
 bool Query::execute_create_table() {
   return database->create_table(table_name, columns);
 }
@@ -277,6 +307,14 @@ bool Query::execute_update() {
   if (!table) return false;
 
   return table->update_rows(columns, values, condition);
+}
+
+bool Query::execute_delete() {
+  Table* table = database->get_table(table_name);
+
+  if (!table) return false;
+
+  return table->delete_rows(condition);
 }
 
 std::string Query::get_result() const {
