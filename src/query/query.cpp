@@ -76,6 +76,10 @@ bool Query::parse() {
     type = QueryType::DELETE;
     return parse_delete();
   }
+  else if (first_token == "create" && tokens.size() > 1 && to_lower(tokens[1]) == "index") {
+    type = QueryType::CREATE_INDEX;
+    return parse_create_index();
+  }
 
   return false;
 }
@@ -99,6 +103,9 @@ bool Query::execute() {
     }
     case QueryType::DELETE: {
       return execute_delete();
+    }
+    case QueryType::CREATE_INDEX: {
+      return execute_create_index();
     }
     default: {
       return false;
@@ -269,6 +276,23 @@ bool Query::parse_delete() {
   return true;
 }
 
+bool Query::parse_create_index() {
+  std::vector<std::string> tokens = tokenize(sql);
+  size_t i = 2;
+
+  if (i >= tokens.size()) return false;
+  index_column = tokens[i];
+  i++;
+
+  if (i >= tokens.size() || to_lower(tokens[i]) != "on") return false;
+  i++;
+
+  if (i >= tokens.size()) return false;
+  table_name = tokens[i];
+
+  return true;
+}
+
 bool Query::execute_create_table() {
   return database->create_table(table_name, columns);
 }
@@ -315,6 +339,14 @@ bool Query::execute_delete() {
   if (!table) return false;
 
   return table->delete_rows(condition);
+}
+
+bool Query::execute_create_index() {
+  Table* table = database->get_table(table_name);
+
+  if (!table) return false;
+
+  return table->create_index(index_column);
 }
 
 std::string Query::get_result() const {

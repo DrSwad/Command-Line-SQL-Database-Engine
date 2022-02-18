@@ -36,7 +36,9 @@ SELECT * FROM students WHERE id >= 2;
 UPDATE students SET name = NotAlice, age = 30 WHERE id = 1;
 SELECT * FROM students WHERE id = 1;
 DELETE FROM students WHERE id = 1;
-SELECT * FROM students;" \
+SELECT * FROM students;
+CREATE INDEX name ON students;
+SELECT * FROM students WHERE name = Bob;" \
 | ./db_engine
 ```
 
@@ -75,6 +77,12 @@ db> Query executed successfully
 db> Query executed successfully. Found 2 rows.
 2 | Bob | 21
 3 | Carol | 22
+Query executed successfully
+
+db> Query executed successfully
+
+db> Query executed successfully. Found 1 rows.
+2 | Bob | 21
 Query executed successfully
 
 db> Goodbye!

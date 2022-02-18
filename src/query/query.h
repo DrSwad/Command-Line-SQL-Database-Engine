@@ -13,6 +13,7 @@ enum class QueryType {
   INSERT,
   UPDATE,
   DELETE,
+  CREATE_INDEX,
   UNKNOWN
 };
 
@@ -25,6 +26,7 @@ private:
   std::vector<std::string> columns;
   std::vector<std::string> values;
   std::string condition;
+  std::string index_column;
 
 public:
   Query(const std::string& sql_query, Database* db);
@@ -43,6 +45,7 @@ private:
   bool parse_insert();
   bool parse_update();
   bool parse_delete();
+  bool parse_create_index();
 
   bool execute_create_table();
   bool execute_drop_table();
@@ -50,4 +53,5 @@ private:
   bool execute_insert();
   bool execute_update();
   bool execute_delete();
+  bool execute_create_index();
 };

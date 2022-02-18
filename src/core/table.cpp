@@ -1,5 +1,6 @@
 #include "core/table.h"
 #include <sstream>
+#include <algorithm>
 
 Table::Table(const std::string& table_name, const std::vector<std::string>& column_names)
   : name(table_name), columns(column_names) {}
@@ -83,5 +84,25 @@ bool Table::delete_rows(const std::string& condition) {
     }
   }
 
+  return true;
+}
+
+bool Table::create_index(const std::string& column_name) {
+  if (std::find(columns.begin(), columns.end(), column_name) == columns.end()) {
+    return false;
+  }
+
+  if (secondary_indexes.find(column_name) != secondary_indexes.end()) {
+    return false;
+  }
+
+  auto index = std::make_unique<BTree>();
+
+  for (size_t i = 0; i < rows.size(); ++i) {
+    std::string value = rows[i]->get_value(column_name);
+    index->insert(value, i);
+  }
+
+  secondary_indexes[column_name] = std::move(index);
   return true;
 }
