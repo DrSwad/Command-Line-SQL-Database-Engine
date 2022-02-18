@@ -1,6 +1,6 @@
 # Command-line SQL Database Engine
 
-A lightweight SQL database engine for command-line usage with indexing, transaction and basic query optimization support.
+A lightweight SQL database engine for command-line usage with indexing, transaction (todo) and basic query optimization (todo) support.
 
 # Prerequisites
 
