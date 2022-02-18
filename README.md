@@ -1,6 +1,6 @@
 # Command-line SQL Database Engine
 
-A lightweight SQL database engine for command-line usage implemented in C++.
+A lightweight SQL database engine for command-line usage with indexing, transaction and basic query optimization support.
 
 # Prerequisites
 
