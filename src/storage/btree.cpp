@@ -13,7 +13,7 @@ BTree::~BTree() = default;
 void BTree::insert(const std::string& key, int value) {
   BTreeNode* r = root.get();
 
-  if (r->keys.size() == 2 * degree - 1) {
+  if (static_cast<int>(r->keys.size()) == 2 * degree - 1) {
     auto new_root = std::make_unique<BTreeNode>(false);
     new_root->children.push_back(std::move(root));
     root = std::move(new_root);
@@ -70,7 +70,7 @@ void BTree::insert_non_full(BTreeNode* node, const std::string& key, int value) 
     }
     i++;
 
-    if (node->children[i]->keys.size() == 2 * degree - 1) {
+    if (static_cast<int>(node->children[i]->keys.size()) == 2 * degree - 1) {
       split_child(node, i);
 
       if (key > node->keys[i]) {
@@ -147,7 +147,7 @@ void BTree::delete_key(BTreeNode* node, const std::string& key) {
 
     bool last_child = (index == static_cast<int>(node->keys.size()));
 
-    if (node->children[index]->keys.size() < degree) {
+    if (static_cast<int>(node->children[index]->keys.size()) < degree) {
       fill_child(node, index);
     }
 
@@ -163,13 +163,13 @@ void BTree::delete_key(BTreeNode* node, const std::string& key) {
 void BTree::delete_internal_node(BTreeNode* node, int index) {
   std::string key = node->keys[index];
 
-  if (node->children[index]->keys.size() >= degree) {
+  if (static_cast<int>(node->children[index]->keys.size()) >= degree) {
     BTreeNode* pred = get_predecessor(node->children[index].get());
     node->keys[index] = pred->keys.back();
     node->values[index] = pred->values.back();
     delete_key(node->children[index].get(), pred->keys.back());
   }
-  else if (node->children[index + 1]->keys.size() >= degree) {
+  else if (static_cast<int>(node->children[index + 1]->keys.size()) >= degree) {
     BTreeNode* succ = get_successor(node->children[index + 1].get());
     node->keys[index] = succ->keys[0];
     node->values[index] = succ->values[0];
@@ -182,11 +182,11 @@ void BTree::delete_internal_node(BTreeNode* node, int index) {
 }
 
 void BTree::fill_child(BTreeNode* node, int index) {
-  if (index != 0 && node->children[index - 1]->keys.size() >= degree) {
+  if (index != 0 && static_cast<int>(node->children[index - 1]->keys.size()) >= degree) {
     borrow_from_prev(node, index);
   }
   else if (index != static_cast<int>(node->keys.size()) &&
-           node->children[index + 1]->keys.size() >= degree
+           static_cast<int>(node->children[index + 1]->keys.size()) >= degree
   ) {
     borrow_from_next(node, index);
   }
