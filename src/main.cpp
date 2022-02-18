@@ -5,7 +5,7 @@
 #include <string>
 
 int main() {
-  std::cout << "=== Custom Database Engine ===" << std::endl;
+  std::cout << "=== SQL Database Engine ===" << std::endl;
   std::cout << "Type 'help' for commands, 'quit' to exit" << std::endl;
 
   Database db("testdb");

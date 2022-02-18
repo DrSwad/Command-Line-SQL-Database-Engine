@@ -44,7 +44,7 @@ SELECT * FROM students WHERE name = Bob;" \
 
 Output:
 ```
-=== Custom Database Engine ===
+=== SQL Database Engine ===
 Type 'help' for commands, 'quit' to exit
 
 db> Query executed successfully
